@@ -1,20 +1,17 @@
-// src/main.ts
+// This script demonstrates how to send a message using the Wormhole SDK via core protocol.
 import {
   wormhole,
   signSendWait, 
   toNative,
   encoding,
-  // Types
   type Chain,
   type Network,
-  type UniversalAddress, // Can be useful for VAA details
-  type NativeAddress,    // Type of `toNative` result
+  type NativeAddress,    
   type WormholeMessageId,
   type UnsignedTransaction,
   type TransactionId,
-  type Platform,         // Corrected type name
-  type WormholeCore,     // Interface for the Core protocol client
-  type Signer as WormholeSdkSigner, // Alias the SDK's Signer type
+  type WormholeCore,     
+  type Signer as WormholeSdkSigner, 
   type ChainContext,
 } from '@wormhole-foundation/sdk';
 
@@ -35,10 +32,10 @@ async function main() {
   let ethersJsProvider: JsonRpcProvider;
 
   try {
-    // Modify signEvmMessage to also return the provider it created
-    const signerResult = await signEvmMessage(); // Assume this now returns { signer, provider }
+    // Return provider and signer from signEvmMessage function
+    const signerResult = await signEvmMessage(); 
     ethersJsSigner = signerResult.signer;
-    ethersJsProvider = signerResult.provider; // Get provider from signEvmMessage
+    ethersJsProvider = signerResult.provider; 
     console.log(`Ethers.js Signer obtained for address: ${await ethersJsSigner.getAddress()}`);
   } catch (error) {
     console.error('Failed to get Ethers.js signer and provider:', error);
@@ -54,8 +51,6 @@ async function main() {
   try {
     // Call getEvmSigner, passing the ethers.Provider and the ethers.Signer
     // The `getEvmSigner` function will construct an EvmSigner instance.
-    // Its first argument is an ethers Provider.
-    // The second is the ethers Signer (or private key string).
     sdkSigner = await getEvmSigner(ethersJsProvider, ethersJsSigner);
     console.log(`Wormhole SDK Signer obtained for address: ${sdkSigner.address()}`);
   } catch (error) {
@@ -65,7 +60,7 @@ async function main() {
  
   // 5. Construct Your Message Payload
   const messageText = `HelloWormholeSDK-${Date.now()}`;
-  const payload: Uint8Array = encoding.bytes.encode(messageText); // Use SDK's encoding util
+  const payload: Uint8Array = encoding.bytes.encode(messageText); 
   console.log(`Message to send: "${messageText}"`);
 
   // 6. Define Message Parameters
